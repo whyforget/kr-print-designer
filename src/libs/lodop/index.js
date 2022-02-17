@@ -33,13 +33,13 @@ function print(temp, data) {
     printContent.forEach((aPrint, index) => {
       LODOP.NewPageA()
       aPrint.forEach((printItem) => {
-        _AddPrintItem(LODOP, printItem, index)
+        _AddPrintItem(LODOP, printItem,aPrint, index)
       })
     })
   } else {
     // 单份
     printContent[0].forEach((printItem) => {
-      _AddPrintItem(LODOP, printItem)
+      _AddPrintItem(LODOP, printItem,printContent[0])
     })
   }
 
@@ -61,13 +61,13 @@ function preview(temp, data) {
     printContent.forEach((aPrint, index) => {
       LODOP.NewPageA()
       aPrint.forEach((printItem) => {
-        _AddPrintItem(LODOP, printItem, index)
+        _AddPrintItem(LODOP, printItem,aPrint,index)
       })
     })
   } else {
     // 单份
     printContent[0].forEach((printItem) => {
-      _AddPrintItem(LODOP, printItem)
+      _AddPrintItem(LODOP, printItem,printContent[0])
     })
   }
 
@@ -84,7 +84,7 @@ function previewTemp(temp) {
 
   let printContent = _TempParser(temp.tempItems)
   printContent[0].forEach(printItem => {
-    _AddPrintItem(LODOP, printItem)
+    _AddPrintItem(LODOP, printItem,printContent[0])
   })
   let flag = LODOP.PREVIEW()
   return flag
@@ -147,7 +147,7 @@ function _TempParser(tempItem, data) {
     data.forEach(dataItem => {
       let conItem = temp.map(tempItem => {
         let item = cloneDeep(tempItem)
-        if (item.name) {
+        if (item.name && item.name!="page") {
           item.defaultValue = dataItem[item.name]
           item.value = strTempToValue(item.value, item.defaultValue)
         }
@@ -168,14 +168,14 @@ function _TempParser(tempItem, data) {
  * @param {Object} printItem 打印项内容
  * @param {Number} pageIndex 当前打印页的开始序号
  */
-function _AddPrintItem(LODOP, tempItem, pageIndex = 0) {
+function _AddPrintItem(LODOP, tempItem, printContent, pageIndex = 0) {
   let printItem = cloneDeep(tempItem)
   // TempItemStyle转换为LodopItemStyle
   let lodopStyle = _createLodopStyle(printItem.style)
 
   // 批量打印时，修改关联打印项的关联序号
   if (lodopStyle.LinkedItem == 1) {
-    lodopStyle.LinkedItem = 1 + pageIndex
+    lodopStyle.LinkedItem = 1 + pageIndex * printContent.length //todo-check: 表格下方表体对象关联
   }
   // 添加打印项
   switch (printItem.type) {
@@ -262,6 +262,13 @@ function _AddPrintItem(LODOP, tempItem, pageIndex = 0) {
   Object.keys(lodopStyle).forEach(key => {
     LODOP.SET_PRINT_STYLEA(0, key, lodopStyle[key])
   })
+  if(printItem.type=="braid-table"){ //todo: 表格分页后打印位置， 相对于原位置
+    // 根据表格top - 标题的高度 - 15（固定和标题的间隙）
+    let item_title = printContent.find((p)=>p.name =='title')
+    let offset =  printItem.top - item_title.height -15
+    LODOP.SET_PRINT_STYLEA(0, "Offset2Top", -offset)
+    LODOP.SET_PRINT_STYLEA(0, "Offset2Left", 0)
+  }
   // 设置默认LodopStyle
   let defaultLodopStyle = printItem.lodopStyle
   if (defaultLodopStyle) {

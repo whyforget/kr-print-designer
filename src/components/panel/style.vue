@@ -3,6 +3,27 @@
     <!-- 公共属性 -->
     <el-form label-width="80px" :model="activeElement" size="mini" class="kr-form">
       <el-row>
+        <el-form-item label="字段名称">
+          <el-input
+            v-model="activeElement.title"
+            @change="updateTitle($event)"
+            class="full-w"
+            :clearable="false"
+            :minlength="1"
+            :disabled="activeElement.name=='page'"
+          ></el-input>
+        </el-form-item>
+        <!--<el-form-item label="明细字段名称">
+          <el-input
+            v-model="activeElement.title"
+            @change="updateTitle($event)"
+            class="full-w"
+            :clearable="false"
+            :minlength="1"
+          ></el-input>
+        </el-form-item>-->
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="宽度">
             <el-input-number
@@ -124,11 +145,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="打印类型">
-            <el-select
-              :disabled="activeElement.style.ItemType===undefined"
-              v-model="activeElement.style.ItemType"
-              class="min-input"
-            >
+            <el-select :disabled="true" v-model="activeElement.style.ItemType" class="min-input">
               <el-option
                 v-for="val in itemTypeArray"
                 :key="val.value"
@@ -171,6 +188,7 @@ export default {
     return {
       codeTypeArray: getCodeTypeArray(),
       itemTypeArray: getItemTypeArray(),
+      tempOldTitle: '',
     }
   },
   computed: {
@@ -180,6 +198,43 @@ export default {
     // 页面高度
     height() {
       return this.$vptd.state.page.height
+    },
+  },
+  watch: {
+    'activeElement.title': {
+      handler(newName, oldName) {
+        console.log('newName:' + newName + ' ' + 'oldName:' + oldName)
+        this.tempOldTitle = oldName
+      },
+    },
+  },
+  methods: {
+    updateTitle(value) {
+      //修改加载的单据的配置项title，修改（todo远程数据库单据配置项）
+      let state = this.$vptd.state
+      let ele = state.activeElement
+      let optItem = state.optionItems.find((p) => p.name == ele.name)
+      if (optItem) {
+        if (!value) {
+          value = this.tempOldTitle
+        }
+        if (ele.name == 'title') {
+          optItem.title = value
+          optItem.value = value
+          optItem.defaultValue = value
+
+          ele.value = value
+          ele.title = value
+        } else {
+          let arr = optItem.value.split('：')
+          optItem.title = value
+          optItem.value = value + '：' + arr[1]
+          optItem.defaultValue = optItem.value
+
+          ele.value = optItem.value
+          ele.title = value
+        }
+      }
     },
   },
 }

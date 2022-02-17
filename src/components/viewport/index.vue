@@ -150,6 +150,10 @@ export default {
 </script>
 
 <style scoped>
+/* addbywhy 处理模板不显示纵向滚动条 */
+#viewport {
+  flex-direction: row;
+}
 .holder {
   display: flex;
   justify-content: center;
@@ -169,5 +173,6 @@ export default {
   box-shadow: 0 0 5px 1px #cccccc;
   background-color: #ffffff;
   background-repeat: no-repeat;
+  overflow: hidden; /* addbywhy 处理当内容元素超出模板时自动隐藏  */
 }
 </style>

@@ -15,6 +15,7 @@
     "lib": "vue-cli-service build --target lib --name kr-print-designer --dest lib src/index.js"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
     "nanoid": "^1.0.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="title">kr-print-designer 打印模板设计器</div>
+    <div class="title">账链通--打印模板设计器</div>
     <section>
       <div class="section">模板管理</div>
       <el-table :data="tempList" style="width: 100%" size="mini" border>

@@ -20,6 +20,7 @@ import {
   FormItem,
   Tag,
   ColorPicker,
+  Upload
 } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/style/index.scss'
@@ -50,6 +51,7 @@ const install = function (Vue, opts = {}) {
   Vue.component(FormItem.name, FormItem)
   Vue.component(Tag.name, Tag)
   Vue.component(ColorPicker.name, ColorPicker)
+  Vue.component(Upload.name, Upload)
 
 
   Vue.use(widgets);

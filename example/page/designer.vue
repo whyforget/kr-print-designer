@@ -1,8 +1,13 @@
 <template>
-  <kr-print-designer ref="printDesigner" :temp-value="value" :widget-options="widgets" @save="handleSave" />
+  <kr-print-designer
+    ref="printDesigner"
+    :temp-value="value"
+    :widget-options="widgets"
+    @save="handleSave"
+  />
 </template>
 <script>
-import { OutStockOptions, InStockOptions } from '../data/options'
+import { OutStockOptions, InStockOptions, SaleStockOutOptions } from '../data/options'
 export default {
   data() {
     return {
@@ -24,7 +29,16 @@ export default {
     try {
       let tempList = JSON.parse(localStorage.getItem('tempList')) || []
       this.value = tempList[this.index]
-      this.widgets = this.value.type == 1 ? OutStockOptions : InStockOptions
+      if (this.value.type == 1) {
+        this.widgets = OutStockOptions
+      } else if (this.value.type == 2) {
+        this.widgets = InStockOptions
+      } else if (this.value.type == 3) {
+        this.widgets = SaleStockOutOptions
+      } else {
+        this.widgets = SaleStockOutOptions
+      }
+      // this.widgets = this.value.type == 1 ? OutStockOptions : InStockOptions
     } catch (err) {
       console.error(err)
     }
@@ -37,9 +51,9 @@ export default {
       this.$router.back()
     },
     // 手动初始话模板数据
-    initTemp(){
-      this.$refs.printDesigner.initTemp(this.value,this.widgets)
-    }
+    initTemp() {
+      this.$refs.printDesigner.initTemp(this.value, this.widgets)
+    },
   },
 }
 </script>

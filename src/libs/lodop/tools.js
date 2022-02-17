@@ -37,7 +37,7 @@ export const tableTempTohtml = (columns, data, style) => {
   columns.forEach(column => {
 
     if (column.name === '_seq') { // 序号列
-      html += '<th width="30">'
+      html += '<th width="40">'
     } else {
       html += '<th>'
     }

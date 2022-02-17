@@ -1,5 +1,6 @@
 module.exports = {
   publicPath: './',
+  productionSourceMap: true,
   pages: {
     index: {
       // page 的入口

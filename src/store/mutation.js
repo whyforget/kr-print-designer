@@ -66,8 +66,11 @@ export default {
     var left = state.originX + Math.floor(dx * 100 / state.zoom)
     var top = state.originY + Math.floor(dy * 100 / state.zoom)
 
-    target.left = left > 0 ? left : 0
-    target.top = top > 0 ? top : 0
+    let tempWidth = state.page.width
+    let tempHight = state.page.height
+
+    target.left = left > 0 ? ( left > tempWidth-target.width ?  tempWidth-target.width : left ) : 0
+    target.top = top > 0 ? ( top > tempHight-target.height ?  tempHight-target.height : top ) : 0
   },
 
   // 调整元件尺寸

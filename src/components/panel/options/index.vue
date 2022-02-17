@@ -1,3 +1,6 @@
+<!--
+ * @FileDescription: 默认的组件页面，暂时不用
+ -->
 <template>
   <div class="options-box">
     <template v-for="(item,index) in optionItems">
@@ -45,6 +48,7 @@ export default {
   methods: {
     // 添加组件
     addTempItem(e, item) {
+      debugger
       switch (item.type) {
         case 'braid-table': {
           let selectCol = []
@@ -59,8 +63,19 @@ export default {
           this.tablePopover = false
           break
         }
-        default:
-          this.$vptd.dispatch('addTempItem', item)
+        default: {
+          let allitems = this.$vptd.state.page.tempItems
+          let exists = false
+          for (var i = 0; i < allitems.length; i++) {
+            if (allitems[i].name == item.name) {
+              exists = true
+              break
+            }
+          }
+          if (!exists) {
+            this.$vptd.dispatch('addTempItem', item)
+          }
+        }
       }
     },
   },

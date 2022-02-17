@@ -25,6 +25,7 @@
           v-for="item in columns"
           :key="item.name"
           :width="item.name==='_seq'?40:''"
+          @click="(e)=>{demo(e,item.title,item.name)}"
         >{{item.title}}</th>
       </tr>
       <tr>
@@ -42,8 +43,8 @@ export default {
   setting: {
     type: WIDGET_NAME,
     isEdit: false, // 是否可编辑
-    dragable: true, // 是否可拖拽
-    resizable: true, // 尺寸是否可变
+    dragable: false, // 是否可拖拽
+    resizable: false, // 尺寸是否可变
     width: 240,
     height: 60,
     left: 50,
@@ -76,7 +77,12 @@ export default {
       return col
     },
   },
-  methods: {},
+  methods: {
+    demo(e, title, name) {
+      console.log(title)
+      console.log(name)
+    },
+  },
 }
 </script>
 

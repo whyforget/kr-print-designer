@@ -10,9 +10,9 @@ export const getDefaultProps = () => ({
   height: 40,
   left: 50,
   top: 0,
-  value: '自定义文本',
-  title: '自定义文本',
-  defaultValue: '自定义文本',
+  value: '',
+  title: '',
+  defaultValue: '',
   style: { zIndex: 1 }
 })
 
