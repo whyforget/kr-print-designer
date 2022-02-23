@@ -1,14 +1,11 @@
 <template>
-  <div class="kr-designer">
-    <!-- <div class="header">dd</div> -->
-    <div class="kr-designer-tool">
-      <el-scrollbar class="kr-designer-tool_con">
-        <panel class="control-panel" />
-      </el-scrollbar>
-      <div class="kr-designer-tool_bar">
-        <el-button size="mini" type="success" @click="saveTemp">保存</el-button>
-        <el-button size="mini" type="primary" @click="previewTemp">预览</el-button>
-        <el-button size="mini" type="primary" @click="texport">导出</el-button>
+  <div class="print_temp">
+    <div class="header">
+      <div class="header-tool_bar">
+        <span id="billTypeSpan" slot="label">{{billTypeName}}</span>
+        <el-button size="mini" type="success" @click="saveTemp" class="print_btn">保存</el-button>
+        <el-button size="mini" type="primary" @click="previewTemp" class="print_btn">预览</el-button>
+        <el-button size="mini" type="primary" @click="texport" class="print_btn">导出</el-button>
         <!-- <el-button size="mini" type="primary" @click="timport">导入</el-button> -->
         <el-upload
           :drag="false"
@@ -20,16 +17,25 @@
           :on-success="onImportSuccess"
           :on-remove="onImportRemove"
           :show-file-list="false"
+          class="upload_box"
         >
           <el-button size="mini" type="primary">导入</el-button>
         </el-upload>
       </div>
     </div>
-    <viewport class="kr-designer-view" />
-    <div class="kr-designer-tool">
-      <el-scrollbar class="kr-designer-tool_con">
-        <PanelStyle class="control-panel" />
-      </el-scrollbar>
+    <div class="kr-designer">
+      <div class="kr-designer-tool print_main_content">
+        <el-scrollbar class="kr-designer-tool_con">
+          <panel class="control-panel" />
+          <p style="height: 10px"></p>
+        </el-scrollbar>
+      </div>
+      <viewport class="kr-designer-view" />
+      <div class="kr-designer-tool">
+        <el-scrollbar class="kr-designer-tool_con">
+          <PanelStyle class="control-panel" />
+        </el-scrollbar>
+      </div>
     </div>
   </div>
 </template>
@@ -40,7 +46,6 @@ import Panel from './components/panel/index.vue'
 import PanelStyle from './components/panel/index-style.vue'
 import cloneDeep from 'lodash/cloneDeep'
 import FileSaver from 'file-saver'
-import ElementUI from 'element-ui'
 import Message from 'element-ui'
 
 export default {
@@ -60,16 +65,29 @@ export default {
     return {
       fileList: [],
       uploadData: [],
+      billTypeList: [{ billType: 7, name: '销售出库单' }],
+      billTypeName: '单据类型不存在或者未定义，请检查！',
     }
   },
   created() {
+    let billType = this.billTypeList.find((p) => p.billType == this.tempValue.billType)
+    if (billType) {
+      this.billTypeName = billType.name
+    }
     this.initTemp(this.tempValue, this.widgetOptions)
   },
   methods: {
     // 保存模板
     saveTemp() {
       let page = this.$vptd.state.page
-      this.$emit('save', cloneDeep(page))
+      if (!page.title) {
+        Message.Message({
+          message: '模板名称不能为空，请检查！',
+          type: 'warning',
+        })
+      } else {
+        this.$emit('save', cloneDeep(page))
+      }
     },
     // 预览模板
     previewTemp() {
@@ -120,6 +138,36 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
+#billTypeSpan {
+  float: left;
+  font-size: 13px;
+  margin-left: 30px;
+  /* line-height: 30px; */
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 5px;
+}
+.print_temp {
+  height: calc(100% - 48px);
+  .header {
+    box-shadow: 0px 5px 4px rgba(19, 31, 44, 0.12);
+    -webkit-box-shadow: 0px 5px 4px rgba(19, 31, 44, 0.12);
+    -moz-box-shadow: 0px 5px 4px rgba(19, 31, 44, 0.12);
+    margin-bottom: 5px;
+    padding-top: 5px;
+    .header-tool_bar {
+      padding-right: 30px;
+      text-align: right;
+      .print_btn {
+        margin-bottom: 5px;
+      }
+      .upload_box {
+        display: inline-block;
+        margin: 0 0 8px 8px;
+      }
+    }
+  }
+}
 .kr-designer {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -134,6 +182,9 @@ html {
     flex: 1;
     display: flex;
     flex-direction: column;
+  }
+  .print_main_content {
+    padding: 0;
   }
   // .header {
   //   width: 100%;

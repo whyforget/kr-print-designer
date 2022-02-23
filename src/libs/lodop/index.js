@@ -112,6 +112,10 @@ function _CreateLodop(pageName, width, height, pageWidth = 0, pageHeight = 0, to
   LODOP.PRINT_INITA(top, left, width, height, pageName)
   LODOP.SET_PRINT_PAGESIZE(1, pageWidth ? pageWidth + 'mm' : 0, pageHeight ? pageHeight + 'mm' : 0, '')
 
+  LODOP.SET_PRINT_MODE("RESELECT_PRINTER",true); //允许重选打印机
+  LODOP.SET_PRINT_MODE("RESELECT_ORIENT",true); //允许重选纸张方向
+  LODOP.SET_PRINT_MODE("RESELECT_PAGESIZE",true); //允许重选纸张
+
   return LODOP
 }
 
@@ -254,6 +258,7 @@ function _AddPrintItem(LODOP, tempItem, printContent, pageIndex = 0) {
           printItem.height,
           html
         )
+        LODOP.SET_PRINT_STYLEA(0,"Stretch",1)
       }
       break
     default: ''
@@ -262,10 +267,17 @@ function _AddPrintItem(LODOP, tempItem, printContent, pageIndex = 0) {
   Object.keys(lodopStyle).forEach(key => {
     LODOP.SET_PRINT_STYLEA(0, key, lodopStyle[key])
   })
-  if(printItem.type=="braid-table"){ //todo: 表格分页后打印位置， 相对于原位置
-    // 根据表格top - 标题的高度 - 15（固定和标题的间隙）
-    let item_title = printContent.find((p)=>p.name =='title')
-    let offset =  printItem.top - item_title.height -15
+  if(printItem.type=="braid-table"){ //todo: 表格分页后打印位置， 相对于标题-10。如果logo在上方（logo固定右上角）则相对于logo-10
+    let item_logo = printContent.find((p)=>p.name =='logo')
+    let offset = 0
+    if(item_logo){
+       offset =  printItem.top - item_logo.height -10
+    }else{
+      // 根据表格top - 标题的高度 - 10（固定和标题的间隙）
+      let item_title = printContent.find((p)=>p.name =='title')
+      offset =  printItem.top - item_title.height -10
+    }
+
     LODOP.SET_PRINT_STYLEA(0, "Offset2Top", -offset)
     LODOP.SET_PRINT_STYLEA(0, "Offset2Left", 0)
   }

@@ -75,3 +75,243 @@ export const InStockData = [
       }]
   }
 ]
+
+export const SaleStockOut = [
+  {
+      "no": "四川某某公司",
+      "buinessDate": "2022-10-10",
+      "warehouseName": "成都仓库",
+      "customerName": "刘某某",
+      "linkName": "张三",
+      "linkPhone": "13541335020",
+      "employeeName": "张三",
+      "contactAddress": "成都市武侯区德商国际",
+      "createDate": "2020-08-27 12:00:00",
+      "sumQty": "10",
+      "total": "129.00",
+      "otherFee": "5",
+      "realTotal": "130",
+  "discountTotal":"4",
+      "postTotal": "100",
+  "accountName": "现金",
+  "curTotal": "0",
+  "arTotal": "0",
+  "memo": "有欠货款",
+      "details": [
+          {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },{
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },{
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+              "productName": "苹果ipone12",
+              "productNo": "12",
+              "specification": "512G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+          {
+               "productName": "苹果ipone13",
+              "productNo": "13",
+              "specification": "1024G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          },
+    {
+              "productName": "苹果ipone11",
+              "productNo": "11",
+              "specification": "256G",
+              "unitName": "个",
+              "qty": "10",
+              "price": "5000",
+      "total": "50000"
+          }
+      ]
+  }
+]

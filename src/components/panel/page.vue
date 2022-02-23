@@ -73,6 +73,30 @@
           <span class="unit-text">(mm)</span>
         </el-form-item>
       </el-row>
+      <el-row>
+        <el-form-item label="上边距">
+          <el-input-number
+            v-model="pageInfo.topMargin"
+            controls-position="right"
+            :min="0"
+            class="min-input"
+            @change="(current,old)=>cusTopMargin(current,old)"
+          ></el-input-number>
+          <span class="unit-text">(mm)</span>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item label="左边距">
+          <el-input-number
+            v-model="pageInfo.leftMargin"
+            controls-position="right"
+            :min="0"
+            class="min-input"
+            @change="(current,old)=>cusLeftMargin(current,old)"
+          ></el-input-number>
+          <span class="unit-text">(mm)</span>
+        </el-form-item>
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -120,37 +144,27 @@ export default {
     },
   },
   methods: {
-    getOneMmsPx() {
-      let div = document.createElement('div')
-      div.id = 'mm'
-      div.style.width = '1mm'
-      document.querySelector('body').appendChild(div)
-      let mm1 = document.getElementById('mm').getBoundingClientRect()
-      console.log(mm1)
-      return mm1.width
-    },
     selPage(value) {
       let page = this.options.find((p) => p.value == value)
       let statPage = this.$vptd.state.page
       statPage.pageWidth = page.width
       statPage.pageHeight = page.height
 
-      let oneMmPx = this.getOneMmsPx()
-      let tempWidth = parseInt(oneMmPx * page.width)
-      let tempHeight = parseInt(oneMmPx * page.height)
+      let tempWidth = parseInt(this.mmToPx(page.width))
+      let tempHeight = parseInt(this.mmToPx(page.height))
 
       statPage.width = tempWidth
       statPage.height = tempHeight
       //切换纸张后控制表格下方打印元素位置
       let pageItem = statPage.tempItems.find((p) => p.name == 'page')
       if (pageItem) {
-        let _top = tempHeight - pageItem.height
+        let _top = tempHeight - pageItem.height - 3 // 上移固定高度
         let _left = tempWidth - pageItem.width
         pageItem.top = _top
         pageItem.left = _left
       }
 
-      let preHeight = this.getPxFromMm(this.options[this.curSelPage - 1].height)
+      let preHeight = this.mmToPx(this.options[this.curSelPage - 1].height)
       let diff = tempHeight - preHeight
       let detailsItem = statPage.tempItems.find((p) => p.name == 'details')
       detailsItem.height = detailsItem.height + diff
@@ -208,18 +222,14 @@ export default {
 
       this.curSelPage = value
     },
-    getPxFromMm(mm) {
-      return parseInt(this.getOneMmsPx() * mm)
-    },
     cusPageWidth(currentValue, oldValue) {
-      let oneMmPx = this.getOneMmsPx()
-      let tempWidth = parseInt(oneMmPx * currentValue)
+      let tempWidth = parseInt(this.mmToPx(currentValue))
       this.$vptd.state.page.width = tempWidth
       let statPage = this.$vptd.state.page
       // 模板宽度改变时 表格，分页项 改变对应模板的宽度，其他普通项目影藏
       let detailsItem = statPage.tempItems.find((p) => p.name == 'details')
       let pageItem = statPage.tempItems.find((p) => p.name == 'page')
-      let diff = parseInt(oneMmPx * oldValue) - tempWidth
+      let diff = parseInt(this.mmToPx(oldValue)) - tempWidth
       detailsItem.width = detailsItem.width - diff
       if (pageItem) {
         pageItem.left = pageItem.left - diff
@@ -249,19 +259,61 @@ export default {
       // }
     },
     cusPageHeight(currentValue, oldValue) {
-      let oneMmPx = this.getOneMmsPx()
-      let tempHeight = parseInt(oneMmPx * currentValue)
+      let tempHeight = parseInt(this.mmToPx(currentValue))
       this.$vptd.state.page.height = tempHeight
 
       let statPage = this.$vptd.state.page
-      // 模板宽度改变时 表格，分页项 改变对应模板的宽度，其他普通项目影藏
-      let detailsItem = statPage.tempItems.find((p) => p.name == 'details')
+      // 模板高度改变时 表格，分页项 改变对应模板的高度，
       let pageItem = statPage.tempItems.find((p) => p.name == 'page')
-      let diff = parseInt(oneMmPx * oldValue) - tempHeight
-      detailsItem.height = detailsItem.height - diff
+      let diff = parseInt(this.mmToPx(oldValue)) - tempHeight
       if (pageItem) {
         pageItem.top = pageItem.top - diff
       }
+
+      let detailsItem = statPage.tempItems.find((p) => p.name == 'details')
+      detailsItem.height = detailsItem.height - diff
+      statPage.tempItems.forEach((item) => {
+        if (item.top >= detailsItem.top && item.style.ItemType == 0) {
+          item.top = item.top - diff
+        }
+      })
+    },
+    cusTopMargin(currentValue, oldValue) {
+      let statPage = this.$vptd.state.page
+      if (currentValue) {
+        statPage.topMargin = currentValue
+      } else {
+        statPage.topMargin = 0
+      }
+    },
+    cusLeftMargin(currentValue, oldValue) {
+      let statPage = this.$vptd.state.page
+      if (currentValue) {
+        statPage.leftMargin = currentValue
+      } else {
+        statPage.leftMargin = 0
+      }
+    },
+    getDPI() {
+      var arrDPI = new Array()
+      if (window.screen.deviceXDPI) {
+        arrDPI[0] = window.screen.deviceXDPI
+        arrDPI[1] = window.screen.deviceYDPI
+      } else {
+        var tmpNode = document.createElement('DIV')
+        tmpNode.style.cssText = 'width:1in;height:1in;position:absolute;left:0px;top:0px;z-index:99;visibility:hidden'
+        document.body.appendChild(tmpNode)
+        arrDPI[0] = parseInt(tmpNode.offsetWidth)
+        arrDPI[1] = parseInt(tmpNode.offsetHeight)
+        tmpNode.parentNode.removeChild(tmpNode)
+      }
+      return arrDPI
+    },
+    mmToPx(mm) {
+      var inch = mm / 25.4 // 1in == 25.4mm
+      // var c_value = inch * this.getDPI()[0]
+      var c_value = inch * 96 // lodop 1px== 1/96in
+      return c_value
     },
   },
 }

@@ -62,9 +62,16 @@ export default {
         var index = allitems.findIndex((p) => p.name == item.name)
         if (index < 0) {
           if (item.name == 'page') {
-            //当添加分页对象时，控制位置为右下角
+            //当添加分页对象时，控制位置为右下角，固定上移3
             let _left = statePage.width - item.width
-            let _top = statePage.height - item.height
+            let _top = statePage.height - item.height - 3
+            item.left = _left
+            item.top = _top
+          }
+          if (item.name == 'logo') {
+            //当添加logo时，控制位置为右上角
+            let _left = statePage.width - item.width
+            let _top = 0
             item.left = _left
             item.top = _top
           }

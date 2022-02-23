@@ -28,7 +28,7 @@ export const OutStockOptions = [
     name: 'logo',
     width:64,
     height:64,
-    style:{"FontColor":"black"}
+    style: {FontSize:9,Alignment:"center",ItemType:1}
   },
   {
     type: 'braid-txt',
@@ -456,14 +456,14 @@ export const SaleStockOutOptions = [
     type: 'braid-image',
     isEdit: 0,
     resizable: 1,
-    dragable: 1,
+    dragable: 0,
     title: 'logo',
-    value: 'https://zlt-project.oss-cn-hangzhou.aliyuncs.com/demo/QQ%E6%88%AA%E5%9B%BE20211224154608.png',
-    defaultValue: 'https://zlt-project.oss-cn-hangzhou.aliyuncs.com/demo/QQ%E6%88%AA%E5%9B%BE20211224154608.png',
+    value: 'https://zlt-project.oss-cn-hangzhou.aliyuncs.com/demo/logo.png',
+    defaultValue: 'https://zlt-project.oss-cn-hangzhou.aliyuncs.com/demo/logo.png',
     name: 'logo',
     width:64,
     height:64,
-    style:{"FontColor":"black"}
+    style: {FontSize:9,Alignment:"center",ItemType:1,Horient:1,Vorient:0}
   },
   {
     type: 'braid-txt',
@@ -674,7 +674,7 @@ export const SaleStockOutOptions = [
     name: 'page',
     width:100,
     height:16,
-    style: {FontSize:9,Alignment:"center",ItemType:1}
+    style: {FontSize:9,Alignment:"center",ItemType:1,Horient:1,Vorient:1}
   },
   {
     type: 'braid-table',

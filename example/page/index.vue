@@ -7,7 +7,8 @@
         <el-table-column label="模板名称" prop="title"></el-table-column>
         <el-table-column label="模板类型">
           <template slot-scope="scope">
-            <span>{{scope.row.type == 1 ? '出库单' : '入库单'}}</span>
+            <!-- <span>{{scope.row.type == 1 ? '出库单' : '入库单'}}</span> -->
+            <span>{{scope.row.billType == 7 ? '出库单' : '入库单'}}</span>
           </template>
         </el-table-column>
         <el-table-column label="模板宽高">
@@ -22,11 +23,21 @@
         </el-table-column>
         <el-table-column align="right">
           <template slot="header">
-            <el-button size="mini" type="primary" @click="openCreate">创建模板</el-button>
+            <!-- <el-button size="mini" type="primary" @click="openCreate">创建模板</el-button> -->
           </template>
           <template slot-scope="scope">
-            <el-button type="text" size="mini" @click="handleEdit(scope.$index, scope.row)">设计</el-button>
-            <el-button type="text" size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
+            <el-button
+              v-show="!scope.row.default"
+              type="text"
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
+            >设计</el-button>
+            <el-button
+              v-show="!scope.row.default"
+              type="text"
+              size="mini"
+              @click="handlePreview(scope.$index, scope.row)"
+            >预览</el-button>
             <el-button type="text" size="mini" @click="handleCopy(scope.row)">复制新增</el-button>
             <el-button
               v-if="!scope.row.default"
@@ -103,7 +114,7 @@
       <el-collapse>
         <el-collapse-item title="测试数据" name="1">
           <el-form ref="testData" :model="testData" size="small" :inline="true">
-            <el-form-item label="出库数据">
+            <!-- <el-form-item label="出库数据">
               <el-input
                 type="textarea"
                 style="width:920px"
@@ -118,6 +129,15 @@
                 style="width:920px"
                 :rows="8"
                 v-model="testData.InStock"
+                placeholder="数据模板对应的数据，数据格式为json对象"
+              ></el-input>
+            </el-form-item>-->
+            <el-form-item label="销售出库单demo数据">
+              <el-input
+                type="textarea"
+                style="width:920px"
+                :rows="8"
+                v-model="testData.SaleStockOut"
                 placeholder="数据模板对应的数据，数据格式为json对象"
               ></el-input>
             </el-form-item>
@@ -140,7 +160,7 @@ const defaultTemp = () => ({
   pageHeight: '',
   tempItems: [],
 })
-import { OutStockData, InStockData } from '../data/test'
+import { OutStockData, InStockData, SaleStockOut } from '../data/test'
 export default {
   data() {
     return {
@@ -167,6 +187,7 @@ export default {
       testData: {
         OutStock: JSON.stringify(OutStockData),
         InStock: JSON.stringify(InStockData),
+        SaleStockOut: JSON.stringify(SaleStockOut),
       },
     }
   },

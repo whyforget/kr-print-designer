@@ -77,7 +77,9 @@ export const tableTempTohtml = (columns, data, style) => {
  */
 export const imageTempTohtml = (value) => {
 
-  let html = '<img style=\'width:100%\' src=\'' + value + '\'/>'
+  // let html = '<img style=\'width:100%\' src=\'' + value + '\'/>'
+
+  let html = '<img  border=\'0\' src=\'' + value + '\'/>'
 
   return html
 }
